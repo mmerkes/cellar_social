@@ -1,0 +1,5 @@
+myConfig.js
+.DS_Store
+bower_components/
+node_modules/
+play_server.js
