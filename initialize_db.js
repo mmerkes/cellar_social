@@ -1,9 +1,12 @@
 var mysql = require('mysql'),
 	fs = require('fs'),
 	async = require('async'),
-	myConfig = require('./myConfig.js'),
-	countries_path = __dirname + '/database_initializers/iso_country_codes_raw',
-	varietals_path = __dirname + '/database_initializers/grape_varietals_raw';
+	myConfig = require('./myConfig.js');
+
+var paths = {
+	countries: __dirname + '/database_initializers/iso_country_codes_raw',
+	varietals: __dirname + '/database_initializers/grape_varietals_raw'
+};
 
 var connection = mysql.createConnection( myConfig );
 
@@ -87,7 +90,7 @@ async.each( categories, function( category ) {
 });
 
 // Populate the countries table
-var countries = convert_file( countries_path );
+var countries = convert_file( paths.countries );
 
 async.each( countries, function(country) {
 	country[1] = trim_value(country[1], 25);
@@ -144,7 +147,7 @@ async.each( appellations, function( appellation ) {
 });
 
 // Populate grape_varietals tables
-var varietals = convert_file( varietals_path );
+var varietals = convert_file( paths.varietals );
 
 async.each( varietals, function( varietal ) {
 	get_id( 'wine_categories', 'name', varietal[1], function(category_id) {
